@@ -74,6 +74,10 @@ useContext();
 изменилась, то хук вновь пересчитывает и кэширует результат выполнения до тех
 пор, пока опять одна из зависимостей не изменится. Первым параметром этот хук
 принимает callback - функцию обратного вызова, а вторым массив зависимости.
+Пример:
+const sortedAndSearchedPosts = useMemo(() => {
+  return sortedPosts.filter(post => post.title.toLowerCase().includes(searchQuery))
+}, [searchQuery, sortedPosts])
 --.--
 
 ---Props - аргументы компонента---
