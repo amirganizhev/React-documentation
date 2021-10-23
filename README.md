@@ -62,12 +62,45 @@ useContext();
 useReducer();
 Подробное описание хуков:
 1) useState() - хук состояния компонента, с помощью него мы создаем состояние у
-управляемого компонента и меняем его.
-Пример: const [title, setTitle] = useState('shocv');
+управляемого компонента и меняем его. Как использовать:
+  1* Создаем состояние:
+  const [weather, setWeather] = useState({
+		country: undefined,
+		city: undefined,
+		temperature: undefined,
+		likeTemperature: undefined,
+		pressure: undefined,
+		humidity: undefined,
+		windSpeed: undefined
+	})
+  2* Передаем в какую либо функцию setWeather, и меняем состояние так как нам
+  нужно, можно по клику, можно просто по умолчанию:
+  setWeather({
+					country: data.sys.country,
+					city: data.name,
+					temperature: Math.round(data.main.temp - 273),
+					likeTemperature: Math.round(data.main.feels_like - 273),
+					weatherDescription: data.weather[0]['description'],
+					pressure: data.main.pressure,
+					humidity: data.main.humidity,
+					windSpeed: data.wind.speed
+				})
 2) useRef() - с помощью этого хука, мы можем получить доступ с DOM - элементу,
 и уже у этого DOM - элемента забрать value. Использется для управление
-состоянием неуправляемого компонента.
-Пример: const bodyInputRef = useRef();
+состоянием неуправляемого компонента. Как использовать:
+  1* Создаем состояние: const searchCityInput = useRef();
+  2* В дом элемент, из которого мы хотим достать что либо, передаем в качестве
+  параметра ref: ref={searchCityInput};
+  3* Достаем то что нам нужно с помощью функции по клику на кнопку или просто:
+  console.log(searchCityInput.current.value).
+  4* Если мы работаем с собственно созданным компонентом, то весь компонент
+  нужно обернуть в функцию React.forwardRef(), и в качестве 2-го параметра
+  передать ref, пример:
+  const SearchInput = React.forwardRef((props, ref) => {
+    return (
+      <input className={classes.searchInput} ref={ref} {...props}/>
+    )
+  })
 3) useMemo(callback, deps) - этот хук производит вычисления, запоминает
 результат этого вычисления и кэширует (такое поведение называется мемоизация),
 и на каждую перерисовку компонента, она не пересчитывает заново, она достает
